@@ -46,6 +46,17 @@ const addUser = (user) => {
   return user;
 };
 
+const removeUser = (user) => {  
+  console.log(user.id);
+  for(let i = 0; i < users["users_list"].length; i++){
+    console.log(users["users_list"][i].id);
+    if(user.id == users["users_list"][i].id){
+      delete users["users_list"][i];
+      break;
+    }
+  }
+};
+
 app.use(express.json());
 
 app.get("/",(req,res) => {
@@ -69,6 +80,12 @@ app.get("/users", (req, res) => {
 app.post("/users", (req,res) => {
   const userToAdd = req.body;
   addUser(userToAdd);
+  res.send();
+})
+
+app.delete("/users", (req,res) => {
+  const userToRemove = req.body;
+  removeUser(userToRemove);
   res.send();
 })
 
