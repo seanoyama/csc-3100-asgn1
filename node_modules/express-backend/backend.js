@@ -39,7 +39,7 @@ const findUserByName = (name) => {
 };
 
 const findUserByNameAndJob = (name,job) => {
-  return users["users_list"].filter((user) => user["job"] === job);//user["name"] === name || 
+  return users["users_list"].filter((user) => user["job"] === job).filter((user) => user["name"] === name);//user["name"] === name || 
 };
 
 const findUserById = (id) =>
@@ -53,7 +53,7 @@ const addUser = (user) => {
 const removeUser = (user) => {  
   for(let i = 0; i < users["users_list"].length; i++){
     if(user.id == users["users_list"][i].id){
-      delete users["users_list"][i];
+      users["users_list"].splice(i, 1);
       break;
     }
   }
@@ -92,13 +92,13 @@ app.post("/users", (req,res) => {
   const userToAdd = req.body;
   addUser(userToAdd);
   res.send();
-})
+});
 
 app.delete("/users", (req,res) => {
   const userToRemove = req.body;
   removeUser(userToRemove);
   res.send();
-})
+});
 
 app.get("/users/:id", (req, res) => {
   const id = req.params["id"];
