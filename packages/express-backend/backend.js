@@ -51,9 +51,7 @@ const addUser = (user) => {
 };
 
 const removeUser = (user) => {  
-  console.log(user.id);
   for(let i = 0; i < users["users_list"].length; i++){
-    console.log(users["users_list"][i].id);
     if(user.id == users["users_list"][i].id){
       delete users["users_list"][i];
       break;
@@ -71,7 +69,6 @@ app.get("/users", (req, res) => {
   // res.send(users);
   const name = req.query.name;
   const job = req.query.job;
-  console.log(job);
 
   if (name != undefined){
     if(job != undefined){
