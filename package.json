@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run -w react-frontend dev"
+    "start": "npm run -w express-backend dev"
   },
   "workspaces": [
     "packages/*"
