@@ -1,5 +1,6 @@
 // backend.js
 import express from "express";
+import cors from "cors";
 
 const app = express();
 const port = 8000;
@@ -46,6 +47,7 @@ const findUserById = (id) =>
   users["users_list"].find((user) => user["id"] === id);
 
 const addUser = (user) => {
+  user.id = String.fromCharCode(Math.random()*27 + 97) + String.fromCharCode(Math.random()*27 + 97) + String.fromCharCode(Math.random()*27 + 97) + Math.floor(Math.random()*10) + Math.floor(Math.random()*10) + Math.floor(Math.random()*10);
   users["users_list"].push(user);
   return user;
 };
@@ -59,7 +61,9 @@ const removeUser = (user) => {
   }
 };
 
+app.use(cors());
 app.use(express.json());
+
 
 app.get("/",(req,res) => {
   res.send("Hello World!");
@@ -91,7 +95,7 @@ app.get("/users", (req, res) => {
 app.post("/users", (req,res) => {
   const userToAdd = req.body;
   addUser(userToAdd);
-  res.send();
+  res.status(201).send("User successfully inserted");
 });
 
 app.delete("/users", (req,res) => {
