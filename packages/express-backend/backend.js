@@ -87,8 +87,9 @@ app.get("/users", (req, res) => {
   // res.send(users);
   const name = req.query.name;
   const job = req.query.job;
+  const id = req.query._id;
 
-  getUsers(name,job).then((result) => res.send(result)).catch((err) => res.status(err).send());
+  getUsers(name,job,_id).then((result) => res.send(result)).catch((err) => res.status(err).send());
 
   // if (name != undefined){
   //   if(job != undefined){
