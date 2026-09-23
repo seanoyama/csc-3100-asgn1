@@ -21,7 +21,8 @@ return (
         <input
             type="text"
             name="name"
-            id="name"
+            id="id"
+            _id="_id"
             value={person.name}
             onChange={handleChange}
         />
@@ -29,7 +30,8 @@ return (
         <input
             type="text"
             name="job"
-            id="job"
+            id="id"
+            _id="_id"
             value={person.job}
             onChange={handleChange}
         />

@@ -4,7 +4,10 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 
+import {addUser, getUsers, findUserById, findUserByName, findUserByJob, removeUser } from "./services/user-service.js";
+
 dotenv.config();
+
 
 const { MONGO_CONNECTION_STRING } = process.env;
 
@@ -46,31 +49,31 @@ const users = {
   ],
 };
 
-const findUserByName = (name) => {
-  return users["users_list"].filter((user) => user["name"] === name);
-};
+// const findUserByName = (name) => {
+//   return users["users_list"].filter((user) => user["name"] === name);
+// };
 
-const findUserByNameAndJob = (name,job) => {
-  return users["users_list"].filter((user) => user["job"] === job).filter((user) => user["name"] === name);//user["name"] === name || 
-};
+// const findUserByNameAndJob = (name,job) => {
+//   return users["users_list"].filter((user) => user["job"] === job).filter((user) => user["name"] === name);//user["name"] === name || 
+// };
 
-const findUserById = (id) =>
-  users["users_list"].find((user) => user["id"] === id);
+// const findUserById = (id) =>
+//   users["users_list"].find((user) => user["id"] === id);
 
-const addUser = (user) => {
-  user.id = String.fromCharCode(Math.random()*27 + 97) + String.fromCharCode(Math.random()*27 + 97) + String.fromCharCode(Math.random()*27 + 97) + Math.floor(Math.random()*10) + Math.floor(Math.random()*10) + Math.floor(Math.random()*10);
-  users["users_list"].push(user);
-  return user;
-};
+// const addUser = (user) => {
+//   user.id = String.fromCharCode(Math.random()*27 + 97) + String.fromCharCode(Math.random()*27 + 97) + String.fromCharCode(Math.random()*27 + 97) + Math.floor(Math.random()*10) + Math.floor(Math.random()*10) + Math.floor(Math.random()*10);
+//   users["users_list"].push(user);
+//   return user;
+// };
 
-const removeUser = (user) => {  
-  for(let i = 0; i < users["users_list"].length; i++){
-    if(user.id == users["users_list"][i].id){
-      users["users_list"].splice(i, 1);
-      break;
-    }
-  }
-};
+// const removeUser = (user) => {  
+//   for(let i = 0; i < users["users_list"].length; i++){
+//     if(user.id == users["users_list"][i].id){
+//       users["users_list"].splice(i, 1);
+//       break;
+//     }
+//   }
+// };
 
 app.use(cors());
 app.use(express.json());
@@ -85,45 +88,41 @@ app.get("/users", (req, res) => {
   const name = req.query.name;
   const job = req.query.job;
 
-  if (name != undefined){
-    if(job != undefined){
-      let result = findUserByNameAndJob(name,job);
-      result = { users_list: result };
-      res.send(result);
-    }
-    else{
-      let result = findUserByName(name);
-      result = { users_list: result };
-      res.send(result);
-    }
-  }
-  else{
-    res.send(users);
-  }
+  getUsers(name,job).then((result) => res.send(result)).catch((err) => res.status(err).send());
+
+  // if (name != undefined){
+  //   if(job != undefined){
+  //     let result = findUserByNameAndJob(name,job);
+  //     result = { users_list: result };
+  //     res.send(result);
+  //   }
+  //   else{
+  //     let result = findUserByName(name);
+  //     result = { users_list: result };
+  //     res.send(result);
+  //   }
+  // }
+  // else{
+  //   res.send(users);
+  // }
 
 });
 
 app.post("/users", (req,res) => {
   const userToAdd = req.body;
-  addUser(userToAdd);
-  res.status(201).send("User successfully inserted");
+  addUser(userToAdd).then((result) => res.send(result)).catch((err) => res.status(err).send());
+  // res.status(201).send("User successfully inserted");
 });
 
 app.delete("/users", (req,res) => {
   const userToRemove = req.body;
-  removeUser(userToRemove);
-  res.send();
+  removeUser(userToRemove).then((result) => res.send(result)).catch((err) => res.status(err).send());
+  // res.send();
 });
 
-app.get("/users/:id", (req, res) => {
-  const id = req.params["id"];
-  let result = findUserById(id);
-  if (result === undefined){
-    res.status(404).send("Resource not found.");
-  }
-  else{
-    res.send(result);
-  }
+app.get("/users/:_id", (req, res) => {
+  const id = req.params["_id"];
+  findUserById(id).then((result) => res.send(result)).catch((err) => res.status(err).send());
 });
 
 app.listen(port, () => {

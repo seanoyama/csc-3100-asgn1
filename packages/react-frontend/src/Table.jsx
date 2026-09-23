@@ -33,9 +33,9 @@ function TableBody(props) {
       <tr key={index}>
         <td>{row.name}</td>
         <td>{row.job}</td>
-        <td>{row.id}</td>
+        <td>{row._id}</td>
         <td>
-            <button onClick={() => props.removeCharacter({"name": row.name, "job": row.job, "id": row.id},index)}>Delete</button>
+            <button onClick={() => props.removeCharacter({"name": row.name, "job": row.job, "_id": row._id},index)}>Delete</button>
         </td>
       </tr>
     );
