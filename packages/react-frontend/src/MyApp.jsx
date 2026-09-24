@@ -22,12 +22,12 @@ function MyApp() {
 }
 
   function fetchUsers(){
-    const promise = fetch("http://localhost:8000/users");
+    const promise = fetch("http://localhost:8000/users/");
     return promise;
   }
 
   function postUser(person) {
-    const promise = fetch("http://localhost:8000/users", {
+    const promise = fetch("http://localhost:8000/users/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -37,7 +37,7 @@ function MyApp() {
     return promise;
   }
   function deleteUser(person) {
-    const promise = fetch("http://localhost:8000/users", {
+    const promise = fetch("http://localhost:8000/users/", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
